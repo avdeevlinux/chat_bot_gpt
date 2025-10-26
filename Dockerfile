@@ -15,4 +15,4 @@ COPY ./ .
 
 EXPOSE 8501
 # Запускаем основной файл
-CMD ["master", "run", "main.py"]
+CMD ["main", "run", "main.py"]
