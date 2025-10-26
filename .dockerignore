@@ -1,0 +1,10 @@
+bot/__pycache__/
+__pycache__/
+venv/
+
+# Logs
+*.log
+*.log.*
+logs/
+
+amvera.*
