@@ -1,4 +1,4 @@
-name: Docker Image Deploy
+name: Deploy
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
