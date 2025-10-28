@@ -42,7 +42,6 @@ jobs:
       - name: Docker compose
         env:
           IMAGE_REF: ${{ steps.meta.outputs.tags }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           OPEN_AI_KEY: ${{ secrets.OPEN_AI_KEY }}
           BASE_URL: ${{ secrets.BASE_URL }}
