@@ -13,6 +13,5 @@ RUN python -m pip install -r requirements.txt
 # Копируем наши файлы в контейнер
 COPY ./ .
 
-EXPOSE 8501
 # Запускаем основной файл
 CMD ["main", "run", "main.py"]
