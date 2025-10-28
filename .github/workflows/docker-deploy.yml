@@ -1,0 +1,53 @@
+name: Docker Image Deploy
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v4.1.1
+        env:
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          fetch-depth: 0
+
+      - name: Install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          docker context create remote --docker host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker compose
+        env:
+          IMAGE_REF: ${{ steps.meta.outputs.tags }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          OPEN_AI_KEY: ${{ secrets.OPEN_AI_KEY }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: |
+          docker-compose --context remote -f docker-compose.yml up -d
+
+      - name: cleanup
+        run: rm -rf ~/.ssh
