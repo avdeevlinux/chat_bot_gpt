@@ -14,4 +14,4 @@ RUN python -m pip install -r requirements.txt
 COPY ./ .
 
 # Запускаем основной файл
-CMD ["main", "run", "main.py"]
+CMD ["python", "main.py"]
