@@ -10,6 +10,7 @@ except ImportError:
     sync_playwright = None  # Satisfy linter with explicit None assignment
 
 MODELS = {}
+user_models = {}  # Add missing user_models dictionary to fix import error
 
 def populate_models():
     global MODELS
@@ -58,7 +59,7 @@ def populate_models():
                         print("Selected DELUXE tariff")
                         page.wait_for_timeout(3000)  # Wait for table update
                     else:
-                        print("Warning: DELUXE tariff option not found")
+                        print("Warning: FREE tariff option not found")
                 else:
                     print("Warning: Tariff dropdown not found")
                 
@@ -149,7 +150,7 @@ def populate_models():
             # Check last column (DELUXE price)
             price_cell = cells[-1]
             price_text = price_cell.get_text(strip=True).lower()
-            print(f"  Checking price: '{price_text}'")
+            # print(f"  Checking price: '{price_text}'")
             if '0' in price_text or 'бесплат' in price_text or 'free' in price_text:
                 print(f"  Found free price indicator")
                 is_free = True
@@ -171,25 +172,29 @@ def populate_models():
             
             # Add to MODELS dict
             MODELS[slug] = name
-            print(f"Added model: {slug} -> {name}")
+            # print(f"Added model: {slug} -> {name}")
 
     # Fallback to hardcoded models if scraping found nothing
     if not MODELS:
         print("No models scraped, using fallback list")
         fallback_models = {
-            "gemma-3-4b-it:free": "Gemma-3-4B-IT",
+            "gpt-4.1-nano:free": "GPT-4.1-Nano",
+            "gpt-5-pro:free": "GPT-5-Pro",
+            "gpt-4o-mini:free": "GPT-4o-Mini",
             "gemini-2.0-flash-exp:free": "Gemini-2.0-Flash-Exp",
-            "gemma-3-12b-it:free": "Gemma-3-12B-IT",
-            "gemma-3-27b-it:free": "Gemma-3-27B-IT",
-            "deepseek-r1t-chimera:free": "DeepSeek-R1T-Chimera",
-            "grok-4.1-fast:free": "Grok-4.1-Fast",
+            "hermes-3-llama-3.1-70b:free": "Hermes-3-Llama-3.1-70B",
             "qwen3-4b:free": "Qwen3-4B",
             "qwen3-235b-a22b:free": "Qwen3-235B-A22B",
             "llama-3.2-3b-instruct:free": "Llama-3.2-3B-Instruct",
             "llama-3.3-70b-instruct:free": "Llama-3.3-70B-Instruct",
             "mistral-7b-instruct:free": "Mistral-7B-Instruct",
+            "deepseek-r1t-chimera:free": "DeepSeek-R1T-Chimera",
+            "grok-4.1-fast:free": "Grok-4.1-Fast",
+            "phi-3-mini-128k-instruct:free": "Phi-3-Mini-128K-Instruct",
+            "command-r-08-2024:free": "Command-R-08-2024",
+            "gemini-2.5-flash-lite:free": "Gemini-2.5-Flash-Lite"
         }
         MODELS.update(fallback_models)
 
 populate_models()
-print("MODELS populated:", list(MODELS.keys()))
+# print("MODELS populated:", list(MODELS.keys()))

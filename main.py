@@ -12,7 +12,7 @@ from bot.handlers import router
 from logging_config import setup_logging
 
 # Load environment variables
-# load_dotenv("env.env")
+load_dotenv("env.env")
 
 # Initialize logging
 setup_logging()
@@ -33,7 +33,7 @@ async def start_cmd(message: Message):
     # Create inline keyboard with model options
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=name, callback_data=model_id)]
-        for model_id, name in MODELS.items()
+        for model_id, name in MODELS.items() if "free" in name
     ])
     
     await message.reply(
