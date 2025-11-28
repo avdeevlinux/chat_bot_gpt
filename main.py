@@ -12,7 +12,7 @@ from bot.handlers import router
 from logging_config import setup_logging
 
 # Load environment variables
-load_dotenv("env.env")
+# load_dotenv("env.env")
 
 # Initialize logging
 setup_logging()
