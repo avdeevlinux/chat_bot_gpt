@@ -2,7 +2,7 @@
 services:
   bot:
     build: .
-    container_name: chat_bot_gpt
+    container_name: chat-bot-gpt
     restart: always
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
