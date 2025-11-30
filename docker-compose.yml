@@ -1,13 +1,12 @@
-version: '3'
 
 services:
   bot:
-    image: ${IMAGE_REF}
-    container_name: globe
+    build: .
+    container_name: chat_bot_gpt
     restart: always
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPEN_AI_KEY=${OPEN_AI_KEY}
       - BASE_URL=${BASE_URL}
     ports:
       - "8501:8501"

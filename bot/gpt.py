@@ -5,7 +5,7 @@ from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 # Load environment variables
-# load_dotenv("env.env")
+load_dotenv()
 
 # Initialize logging
 logger = logging.getLogger("gpt")
